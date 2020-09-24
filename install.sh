@@ -1,4 +1,12 @@
-#!/usr/bin/sudo /bin/sh
+#!/bin/sh
+
+NAME="my-term-config"
+URL="https://github.com/nandavelugoti/my-term-config.git"
+
+# Clone the repo if didn't already 
+if test ! -d $NAME/.git/; then
+	git clone $URL
+fi
 
 ##########################################################################################
 ##########################################################################################
@@ -12,23 +20,23 @@
 ##########################################################################################
 ##########################################################################################
 
-cat figlet.txt
+cat $NAME/figlet.txt
 
 # Check for dependencies; Install if not exists
 echo "Checking for dependencies ..."
-for CMD in zsh tmux git fonts-powerline
+for CMD in zsh tmux fonts-powerline
 do
 	if [ $(command -v $CMD) ]; then
 		echo "$CMD is already installed"
 	else
 		echo "$CMD is not installed. So installing it ..."
-		yes | apt install $CMD
+		yes | sudo apt install $CMD
 	fi
 done
 
 # Install oh-my-zsh
 echo "Checking for oh-my-zsh ..."
-if test -d ~/.oh-my-zsh; then
+if test -d $HOME/.oh-my-zsh; then
 	echo "oh-my-zsh is already installed"
 else
 	echo "Installing oh-my-zsh"
@@ -41,23 +49,23 @@ chsh -s $(which zsh)
 
 # Install TPM
 echo "Checking for TPM ..."
-if test -d ~/.tmux/plugins/tpm/.git; then
+if test -d $HOME/.tmux/plugins/tpm/.git; then
 	echo "TPM is already installed"
 else
 	echo "Installing TPM"
-	git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+	git clone https://github.com/tmux-plugins/tpm $HOME/.tmux/plugins/tpm
 fi
 
 # Setup .tmux.conf
-if test -f ~/.tmux.conf; then
+if test -f $HOME/.tmux.conf; then
 	echo "Saving exitsing ~/.tmux.conf to ~/.tmux.conf.save"
-	mv ~/.tmux.conf ~/.tmux.conf.save
+	mv $HOME/.tmux.conf $HOME/.tmux.conf.save
 fi
 
 echo "Setting up new ~/.tmux.conf"
-cp .tmux.conf ~/.tmux.conf
+cp .tmux.conf $HOME/.tmux.conf
 
 # Reload TMUX environment so TPM is sourced
-tmux source-file ~/.tmux.conf
+tmux source-file $HOME/.tmux.conf
 
 echo "Done"

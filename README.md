@@ -5,6 +5,7 @@ A simple linux terminal configuration with Tmux (with Tmux Plugin Manager) and o
 ### Dependencies
 - sh (shell)
 - curl
+- git
 
 ### Install
 ` sh -c "$(curl -fsSL https://github.com/nandavelugoti/my-term-config/install.sh)" `
